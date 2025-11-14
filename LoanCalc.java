@@ -50,10 +50,10 @@ public class LoanCalc {
 		double sum = loan/n;
 		double x=1;
 		while (x > 0) {
-			
-			x = endBalance(loan, rate, n, sum);
 			sum = sum+epsilon;
 			iterationCounter++;
+			x = endBalance(loan, rate, n, sum);
+			
 		}
 		return sum;
     }
