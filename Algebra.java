@@ -25,60 +25,118 @@ public class Algebra {
 
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
+		if (x2 > 0) {
 		for (int i = 0; i < x2; i++){
 			x1++;
 		}
+	}
+		else {
+			for (int i = x2; i != 0; i++){
+			x1--;
+			}
+		}
+	
 		return x1;
 	}
 
+
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		for (int i = 0; i < x2; i++){
+		if (x2>0) {
+			for (int i = 0; i < x2; i++){
 			x1--;
 		}
+	}
+	else{
+		for(int i = x2; i != 0; i++){
+			x1++;
+		}
+	}
 		return x1;
 	}
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
 		int T = x1;
-		for (int i = 1; i < x2; i++){
+		if (x1 == 0 || x2 ==0) {
+			return 0;
+		}
+
+		if(x2 > 0){
+
+			for (int i = 1; i < x2; i++){
 			x1 = plus(x1, T);
 		}
+	}
+		else{
+		for (int i = x2; i != 1; i++){
+			x1 = minus(x1, T);
+		}
+	}
 		return x1;
 	}
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-	
-		if (n==0){
-			return 1;
-		}
-		else{
-			int T = x;
-			for(int i = 1; i < n; i++){
-				x = times(x, T);
-			}
-		}
-		return x;
-	}
+        if (n == 0) {
+            return 1;
+        }
+
+        int s = 1;
+
+        if (x < 0) {
+            if (mod(n, 2) != 0) {
+                s = -1;
+            }
+            x = times(x, -1);
+        }
+        
+        int T = x;
+        for (int i = 1; i < n; i++) {
+            x = times(x, T);
+        }
+
+        if (s == -1) {
+            x = times(x, -1);
+        }
+        
+        return x;
+    }
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
-		int T = 0;
-		int B = 0;
-		while (x1 > B){
-			B = plus(B, x2);
-			T++;
-		}
-		if(x1 == B){
-			return T;
-		}
-		else{
-			T--;
-			return T;
-		}
-	}
+        if (x2 == 0) {
+            return 0;
+        }
+
+        int s = 1;
+
+        if ((x1 < 0 && x2 > 0) || (x1 > 0 && x2 < 0)) {
+            s = -1;
+        }
+
+        if (x1 < 0) {
+            x1 = times(x1, -1);
+        }
+        if (x2 < 0) {
+            x2 = times(x2, -1);
+        }
+        
+        int T = 0;
+        int B = 0;
+
+        while (plus(B, x2) <= x1) {
+            B = plus(B, x2);
+            T++;
+        }
+        
+        if (s == -1) {
+            T = times(T, -1);
+        }
+        
+        return T;
+    }
+	
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
@@ -96,6 +154,9 @@ public class Algebra {
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
 			int i = 1;
+			if (x==0) {
+				return 0;
+			}
 			while (pow(i, 2)<x){
 				i++;
 			}
